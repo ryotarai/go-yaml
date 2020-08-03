@@ -33,6 +33,7 @@ type Encoder struct {
 	isJSONStyle        bool
 	anchorCallback     func(*ast.AnchorNode, interface{}) error
 	anchorPtrToNameMap map[uintptr]string
+	alwaysQuoteString  bool
 
 	line        int
 	column      int
@@ -251,7 +252,7 @@ func (e *Encoder) encodeFloat(v float64) ast.Node {
 }
 
 func (e *Encoder) encodeString(v string, column int) ast.Node {
-	if e.isJSONStyle || token.IsNeedQuoted(v) {
+	if e.alwaysQuoteString || e.isJSONStyle || token.IsNeedQuoted(v) {
 		v = strconv.Quote(v)
 	}
 	return ast.String(token.New(v, v, e.pos(column)))

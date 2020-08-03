@@ -120,3 +120,11 @@ func MarshalAnchor(callback func(*ast.AnchorNode, interface{}) error) EncodeOpti
 		return nil
 	}
 }
+
+// AlwaysQuoteString lets the encoder quote all strings
+func AlwaysQuoteString() EncodeOption {
+	return func(e *Encoder) error {
+		e.alwaysQuoteString = true
+		return nil
+	}
+}
